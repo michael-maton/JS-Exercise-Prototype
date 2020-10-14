@@ -105,7 +105,7 @@ function Baby(name, age, favoriteToy) {
 }
 Baby.prototype = Object.create(Person.prototype);
 Baby.prototype.play = function(){
-  return `Playing with ${this.favoriteToy}`;
+  return `Playing with ${this.favoriteToy}.`;
 }
 
 let craig = new Baby("Craig", 2, "Hot Wheels");
@@ -120,10 +120,11 @@ console.log(craig.play());
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  GOAL: Figure out what the calling object is!!!
+  1. On global scope, 'this' will point to the window/console object.
+  2. Whenever 'this' is called, whatever object is right before 'this' is what 'this' will point to.
+  3. If using a constructor function, 'this' points to whatever object the constuctor function is creating.
+  4. When using explicit binding (call/apply), 'this' is explicitly binded to the first argument passed in.
 */
 
 
