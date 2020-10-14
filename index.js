@@ -87,9 +87,26 @@ function Car(model, milesPerGallon) {
 }
 Car.prototype.fill = function(gallons){
   this.tank += gallons;
-}
+};
+Car.prototype.drive = function(distance){  
+  if((1/(this.milesPerGallon/distance)) < this.tank){
+    this.tank = this.tank - (1/(this.milesPerGallon/distance));
+    this.odometer += distance;
+  }
+  else if((1/(this.milesPerGallon/distance)) >= this.tank){
+    this.odometer = (this.tank)*(this.milesPerGallon);
+    this.tank = 0;
+    return `I ran out of fuel at ${this.odometer} miles!`;
+  }
+  // else if ((1/(this.milesPerGallon/distance)) > this.tank){
+  //   this.tank = 0;
+  //   return `I ran out of fuel at ${this.odometer} miles!`;
+  // }
+};
 
-let GTI = new Car("GTI", 37);
+let GTI = new Car("GTI", 25);
+GTI.fill(10);
+GTI.drive(275);
 console.log(GTI);
 
 /*
@@ -106,7 +123,7 @@ function Baby(name, age, favoriteToy) {
 Baby.prototype = Object.create(Person.prototype);
 Baby.prototype.play = function(){
   return `Playing with ${this.favoriteToy}.`;
-}
+};
 
 let craig = new Baby("Craig", 2, "Hot Wheels");
 craig.eat("pudding");
