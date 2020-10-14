@@ -19,6 +19,9 @@ Airplane.prototype.land = function () {
   this.isFlying = false;
 };
 
+let boeing = new Airplane("Boeing");
+boeing.takeOff();
+console.log(boeing);
 
 /*
 // 👇 COMPLETE YOUR WORK BELOW 👇
@@ -39,9 +42,28 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 }
+Person.prototype.eat = function(food){
+  if(this.stomach.length < 10){
+    this.stomach.push(food);
+  }
+};
+Person.prototype.poop = function(){
+  this.stomach = [];
+};
+Person.prototype.toString = function(){
+  return `${this.name}, ${this.age}`;
+};
+
+let mike = new Person("Mike", 25);
+mike.eat("Wings");
+console.log(mike.toString());
+console.log(mike);
+
 
 /*
   TASK 2
@@ -57,9 +79,35 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
 }
+Car.prototype.fill = function(gallons){
+  this.tank += gallons;
+};
+Car.prototype.drive = function(distance){  
+  if((1/(this.milesPerGallon/distance)) < this.tank){
+    this.tank = this.tank - (1/(this.milesPerGallon/distance));
+    this.odometer += distance;
+  }
+  else if((1/(this.milesPerGallon/distance)) >= this.tank){
+    this.odometer = (this.tank)*(this.milesPerGallon);
+    this.tank = 0;
+    return `I ran out of fuel at ${this.odometer} miles!`;
+  }
+  // else if ((1/(this.milesPerGallon/distance)) > this.tank){
+  //   this.tank = 0;
+  //   return `I ran out of fuel at ${this.odometer} miles!`;
+  // }
+};
+
+let GTI = new Car("GTI", 25);
+GTI.fill(10);
+GTI.drive(275);
+console.log(GTI);
 
 /*
   TASK 3
@@ -68,18 +116,32 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.favoriteToy = favoriteToy;
 }
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function(){
+  return `Playing with ${this.favoriteToy}.`;
+};
 
+let craig = new Baby("Craig", 2, "Hot Wheels");
+craig.eat("pudding");
+craig.eat("carrots");
+craig.eat("canned food");
+craig.eat("milk");
+craig.poop();
+console.log(craig);
+console.log(craig.play());
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  GOAL: Figure out what the calling object is!!!
+  1. On global scope, 'this' will point to the window/console object.
+  2. Whenever 'this' is called, whatever object is right before 'this' is what 'this' will point to.
+  3. If using a constructor function, 'this' points to whatever object the constuctor function is creating.
+  4. When using explicit binding (call/apply), 'this' is explicitly binded to the first argument passed in.
 */
 
 
